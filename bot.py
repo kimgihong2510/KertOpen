@@ -15,7 +15,7 @@ client = discord.Client()
 forbidend=datetime.datetime.now(timezone('Asia/Seoul'))
 status=update.Openornot()
 
-token='ODU1ODY2Mjc5MDA0ODY0NTcz.YM4tlg._RtQg5BnXX03gDhF095nerLukw0'
+token='ODU1ODY2Mjc5MDA0ODY0NTcz.YM4tlg.sdyBX-ggQThrEn0ziWcaQ2ApXRI'
 
 forbidenchannels=[546610833824940042,699572422734643261, 855787966945034290, 572759629029834772]
 
@@ -100,7 +100,7 @@ def main():
             if status==1:
                 await message.channel.send('띵동')
                 try:
-                    mixer.music.load("/home/pi/server/KertOpen/bell.mp3")
+                    mixer.music.load("bell.mp3")
                     mixer.music.play()
                 except:
                     await message.channel.send('초인종이 작동을 안해요 ㅠㅠ 다른 방법을 이용해주세요')
