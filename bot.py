@@ -94,7 +94,9 @@ def main():
             if status==1:
                 await message.channel.send('띵동')
                 try:
-                    tts = gTTS(text=3 * (message.author.Nickname + " "), lang='ko')
+                    result = ''.join([i for i in message.author.display_name if not i.isdigit() or i=='_'])
+
+                    tts = gTTS(text=(result + "님께서 왔습니다"), lang='ko')
                     os.system("mplayer bell.mp3")
                     tts.save("hell.mp3")
                     os.system("mplayer hell.mp3")
@@ -113,7 +115,8 @@ def main():
             if status==1:
                 await message.channel.send(broadcast + '와 같이 보냈습니다')
                 try:
-                    tts = gTTS(text=message.author.Nickname + " 님께서 알립니다. " + broadcast, lang='ko')
+                    result = ''.join([i for i in message.author.display_name if not i.isdigit() or i=='_'])
+                    tts = gTTS(text=result + " 님께서 알립니다. " + broadcast, lang='ko')
                     tts.save("hell.mp3")
                     os.system("mplayer hell.mp3")
                 except:
