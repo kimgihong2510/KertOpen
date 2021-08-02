@@ -1,13 +1,13 @@
 import asyncio
 import time
 time.sleep(4)
-from pygame import mixer
 import datetime
 from pytz import timezone
 from discord.ext import tasks
 import discord
 import light_sensor as update
 import os
+from gtts import gTTS
 
 
 client = discord.Client()
@@ -19,10 +19,8 @@ token='ODU1ODY2Mjc5MDA0ODY0NTcz.YM4tlg.sdyBX-ggQThrEn0ziWcaQ2ApXRI'
 
 forbidenchannels=[546610833824940042,699572422734643261, 855787966945034290, 572759629029834772]
 
-mixer.init()
 
-def main():    
-
+def main():
     @tasks.loop(seconds=5)
     async def statusupdate():
         global status
@@ -100,8 +98,10 @@ def main():
             if status==1:
                 await message.channel.send('띵동')
                 try:
-                    mixer.music.load("bell.mp3")
-                    mixer.music.play()
+                    tts = gTTS(text=message.author.name + " 님께옵소서는 컬방에 친히 방문하셨사옵나이다!", lang='ko')
+                    tts.save("/home/pi/KertOpen/hell.mp3")
+                    os.system("mplayer /home/pi/KertOpen/hell.mp3")
+                    os.system("mplayer /home/pi/KertOpen/bell.mp3")
                 except:
                     await message.channel.send('초인종이 작동을 안해요 ㅠㅠ 다른 방법을 이용해주세요')
 
