@@ -56,7 +56,7 @@ def main():
         #closed 0, opened 1, forbidden 2
             
         if message.content == '?help':
-            await message.channel.send("?출입금지n (어드민 권한 필요)\n?컬방열렸나요?\n?컬방열어주세요\n?컬방공지 [내용]")
+            await message.channel.send("?출입금지[분] (어드민 권한 필요)\n?컬방열렸나요?\n?컬방열어주세요\n?컬방공지 [내용]")
 
         if message.content == '?reboot':
             await message.channel.send("다시 시작합니다")
@@ -94,7 +94,7 @@ def main():
             if status==1:
                 await message.channel.send('띵동')
                 try:
-                    result = ''.join([i for i in message.author.display_name if not i.isdigit() or i=='_'])
+                    result = ''.join([i for i in message.author.display_name if not (i.isdigit() or i=='_')])
 
                     tts = gTTS(text=(result + "님께서 왔습니다"), lang='ko')
                     os.system("mplayer bell.mp3")
@@ -115,7 +115,7 @@ def main():
             if status==1:
                 await message.channel.send(broadcast + '와 같이 보냈습니다')
                 try:
-                    result = ''.join([i for i in message.author.display_name if not i.isdigit() or i=='_'])
+                    result = ''.join([i for i in message.author.display_name if not (i.isdigit() or i=='_')])
                     tts = gTTS(text=result + " 님께서 알립니다. " + broadcast, lang='ko')
                     tts.save("hell.mp3")
                     os.system("mplayer hell.mp3")
