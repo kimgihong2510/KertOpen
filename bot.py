@@ -17,6 +17,8 @@ token='ODU1ODY2Mjc5MDA0ODY0NTcz.YM4tlg.sdyBX-ggQThrEn0ziWcaQ2ApXRI'
 
 forbidenchannels=[546610833824940042, 699572422734643261, 855787966945034290, 572759629029834772]
 
+forbiddencommands=['sudo', 'sh', 'rm', 'fork', 'config', 'host', 'super']
+sudocommands=['reboot']
 
 def main():
     @tasks.loop(seconds=5)
@@ -30,8 +32,7 @@ def main():
         elif status == 1 :
             client.change_presence(status=discord.Status.online)
         elif status == 2 :
-            client.change_presence(status=discord.Status.dnd)   
-        
+            client.change_presence(status=discord.Status.dnd)
 
     @client.event
     async def on_ready():
@@ -56,11 +57,26 @@ def main():
         #closed 0, opened 1, forbidden 2
             
         if message.content == '?help':
-            await message.channel.send("?출입금지[분] (어드민 권한 필요)\n?컬방열렸나요?\n?컬방열어주세요\n?컬방공지 [내용]")
+            await message.channel.send("?출입금지[분] (어드민 권한 필요)\n?열렸나요\n?열어주세요\n?공지 [내용]")
 
-        if message.content == '?reboot':
-            await message.channel.send("다시 시작합니다")
-            return os.system("reboot")
+        if message.content[0:4] == '?cmd':
+            cmd = message.content[5:]
+            res = message.author.display_name + " $ "
+            is_safe = True
+
+            for c in forbiddencommands:
+                if c in cmd:
+                    is_safe = False
+                    break
+
+            if is_safe:
+                if cmd in sudocommands:
+                    cmd = "sudo " + cmd
+                res += os.popen(cmd).read()
+            else:
+                res += "no hack."
+            
+            await message.channel.send(res)
 
         if message.content[0:5] == '?출입금지':
             if message.author.guild_permissions.administrator==True:
@@ -80,7 +96,8 @@ def main():
             else :
                 await message.channel.send("권한이 없습니다")
         
-        if message.content == '?컬방열렸나요?':
+
+        if message.content == '?열렸나요':
             if status==1:
                 await message.channel.send('열렸습니다')
             elif status==2:
@@ -90,7 +107,7 @@ def main():
                 await message.channel.send('닫혔습니다')
     
         
-        if message.content == '?컬방열어주세요':
+        if message.content == '?열어주세요':
             if status==1:
                 await message.channel.send('띵동')
                 try:
@@ -110,8 +127,8 @@ def main():
             else:
                 await message.channel.send('컬방이 닫혀있습니다')
 
-        if message.content[:5] == '?컬방공지':
-            broadcast = message.content[6:]
+        if message.content[:3] == '?공지':
+            broadcast = message.content[4:]
             if status==1:
                 await message.channel.send(broadcast + '와 같이 보냈습니다')
                 try:
