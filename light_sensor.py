@@ -8,7 +8,6 @@ __license__ = "GPL"
 __maintainer__ = "pimylifeup.com"
 
 
-
 #define the pin that goes to the circuit
 
 
@@ -24,7 +23,7 @@ def rc_time (pin_to_circuit):
     GPIO.setup(pin_to_circuit, GPIO.IN)
   
     #Count until the pin goes high
-    while (GPIO.input(pin_to_circuit) == GPIO.LOW):
+    while (GPIO.input(pin_to_circuit) == GPIO.LOW) and count < 110000:
         count += 1
 
     return count
@@ -34,6 +33,7 @@ def Openornot():
     try:
         pin_to_circuit = 7
         GPIO.setmode(GPIO.BOARD)
+
         tmp=rc_time(pin_to_circuit)
         if tmp>100000: #closed
             return 0
