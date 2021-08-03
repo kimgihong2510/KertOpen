@@ -17,8 +17,9 @@ token='ODU1ODY2Mjc5MDA0ODY0NTcz.YM4tlg.sdyBX-ggQThrEn0ziWcaQ2ApXRI'
 
 forbidenchannels=[546610833824940042, 699572422734643261, 855787966945034290, 572759629029834772]
 
-forbiddencommands=['sudo', 'sh', 'rm', 'fork', 'config', 'host', 'super']
-sudocommands=['reboot']
+forbiddencommands=['sudo', 'sh', 'rm', 'fork', 'config', 'host', 'super', 
+'ping', 'vi', 'python', 'nmap', 'eval', 'nano', 'vim', 'config', 'net']
+sudocommands=[]
 
 def main():
     @tasks.loop(seconds=5)
@@ -72,7 +73,10 @@ def main():
             if is_safe:
                 if cmd in sudocommands:
                     cmd = "sudo " + cmd
-                res += os.popen(cmd).read()
+                output = os.popen(cmd + '; exit')
+
+                for line in output.readlines():
+                    res += line
             else:
                 res += "no hack."
             
